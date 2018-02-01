@@ -15,8 +15,9 @@
   limitations under the License.
 -->
 <resources>
-    <string name="app_name">SystemUpdater</string>
+    <string name="app_name">Local System Update</string>
     <string name="action_settings">Settings</string>
-    <string name="title">Mounted Volumes</string>
-    <string name="back">Go Back</string>
+    <string name="title">Local System Update</string>
+    <string name="invalid_file_type">This is not a valid file for updating</string>
+    <string name="unknown_file">Unknown File</string>
 </resources>
