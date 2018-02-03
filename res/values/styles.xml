@@ -14,7 +14,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
   <style name="Theme.Car.Settings.NoActionBar" parent="Theme.Car.NoActionBar">
       <item name="android:windowBackground">@color/windowBackground</item>
       <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -48,5 +48,16 @@
       <item name="android:minWidth">@dimen/car_button_min_width</item>
       <item name="android:fontFamily">roboto-regular</item>
       <item name="android:textColor">@color/action_bar_btn</item>
+  </style>
+
+  <style name="SystemUpdateAutoToolbarAction">
+    <item name="android:textSize">@dimen/system_update_auto_toolbar_action_size</item>
+    <item name="android:textAllCaps">true</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textColor">@color/car_accent</item>
+    <item name="android:paddingLeft">@dimen/car_padding_5</item>
+    <item name="android:paddingRight">@dimen/car_padding_5</item>
+    <item name="android:background">?android:selectableItemBackground</item>
+    <item name="android:gravity">center</item>
   </style>
 </resources>

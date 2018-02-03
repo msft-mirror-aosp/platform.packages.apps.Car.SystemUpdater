@@ -16,4 +16,5 @@
 -->
 <resources>
   <dimen name="action_bar_end_widget_margin_end">46dp</dimen>
+  <dimen name="system_update_auto_toolbar_action_size">32sp</dimen>
 </resources>
