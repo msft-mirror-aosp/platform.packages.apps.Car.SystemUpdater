@@ -15,7 +15,6 @@
  */
 package com.android.car.systemupdater;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
@@ -25,43 +24,42 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.RecoverySystem;
+import android.os.storage.StorageEventListener;
+import android.os.storage.StorageManager;
+import android.os.storage.VolumeInfo;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
-import android.os.storage.StorageEventListener;
-import android.os.storage.StorageManager;
-import android.os.storage.VolumeInfo;
-
 /**
- * A prototype of performing system update using an ota package on internal or external storage.
- * TODO(yaochen): Move the code to a proper location and let it extend CarActivity once available.
+ * Apply a system update using an ota package on internal or external storage.
  */
-public class SystemUpdaterActivity extends Activity {
+public class SystemUpdaterActivity extends AppCompatActivity {
     private static final String TAG = "SystemUpdaterActivity";
-    private static final boolean DEBUG = true;
     private static final String UPDATE_FILE_NAME = "update.zip";
 
     private final Handler mHandler = new Handler();
     private StorageManager mStorageManager = null;
     private ProgressDialog mVerifyPackageDialog = null;
 
-
     private final StorageEventListener mListener = new StorageEventListener() {
         @Override
         public void onVolumeStateChanged(VolumeInfo vol, int oldState, int newState) {
-            if (DEBUG) {
-                Log.d(TAG, "onVolumeMetadataChanged " + oldState + " " + newState
-                        + " " + vol.toString());
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, String.format(
+                        "onVolumeMetadataChanged %d %d %s", oldState, newState, vol.toString()));
             }
             showMountedVolumes();
         }
@@ -71,6 +69,9 @@ public class SystemUpdaterActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         mStorageManager = (StorageManager) getSystemService(Context.STORAGE_SERVICE);
         if (mStorageManager == null) {
             Log.w(TAG, "Failed to get StorageManager");
@@ -95,72 +96,25 @@ public class SystemUpdaterActivity extends Activity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStackImmediate();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    public void showMountedVolumes() {
+    private void showMountedVolumes() {
         if (mStorageManager == null) {
             return;
         }
         final List<VolumeInfo> vols = mStorageManager.getVolumes();
-        File[] files = new File[vols.size()];
+        ArrayList<String> volumes = new ArrayList<>(vols.size());
         int i = 0;
         for (VolumeInfo vol : vols) {
             File path = vol.getPathForUser(getUserId());
-            if (vol.getState() != VolumeInfo.STATE_MOUNTED || path == null) {
-                continue;
+            if (vol.getState() == VolumeInfo.STATE_MOUNTED && path != null) {
+                volumes.add(path.getAbsolutePath());
             }
-            files[i++] = path;
         }
         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        DeviceListFragment frag = new DeviceListFragment();
-        frag.updateList(files);
-        frag.updateTitle(getString(R.string.title));
-        getFragmentManager().beginTransaction()
-                .replace(R.id.device_container, frag).commit();
+        DeviceListFragment frag = DeviceListFragment.getInstance(volumes);
+        getFragmentManager().beginTransaction().replace(R.id.device_container, frag).commit();
     }
 
-    public void showFolderContent(final File location) {
-        if (!location.isDirectory()) {
-            return;
-        }
-         AsyncTask<String, Void, File[]> readFilesTask = new AsyncTask<String, Void, File[]>() {
-            @Override
-            protected File[] doInBackground(String... strings) {
-                File f = new File(strings[0]);
-                /* if we want to filter files, use
-                File[] files = f.listFiles(new FilenameFilter() {
-                    @Override
-                    public boolean accept(File dir, String filename) {
-                        return true;
-                    }
-                }); */
-                return f.listFiles();
-            }
-
-            @Override
-            protected void onPostExecute(File[] results) {
-                super.onPostExecute(results);
-                if (results == null) {
-                    results = new File[0];
-                }
-                DeviceListFragment frag = new DeviceListFragment();
-                frag.updateTitle(location.getAbsolutePath());
-                frag.updateList(results);
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.device_container, frag).addToBackStack(null).commit();
-            }
-        };
-        readFilesTask.execute(location.getAbsolutePath());
-    }
-
-    public void checkPackage(File file) {
+    public void applyUpdate(File file) {
         mVerifyPackageDialog = new ProgressDialog(this);
         mVerifyPackageDialog.setTitle("Verifying... " + file.getAbsolutePath());
 
@@ -187,11 +141,8 @@ public class SystemUpdaterActivity extends Activity {
             mFile = file;
             try {
                 RecoverySystem.verifyPackage(file, mProgressListener, null);
-            } catch (GeneralSecurityException e) {
-                Log.e(TAG, "Security Exception in verifying package " + file, e);
-                return e;
-            } catch (IOException e) {
-                Log.e(TAG, "IO Exception in verifying package " + file, e);
+            } catch (GeneralSecurityException | IOException e) {
+                Log.e(TAG, "While verifying package " + file, e);
                 return e;
             }
             return null;
@@ -216,7 +167,6 @@ public class SystemUpdaterActivity extends Activity {
         }
     }
 
-
     private class CopyFile extends AsyncTask<File, Void, Exception> {
         @Override
         protected Exception doInBackground(File... files) {
@@ -226,9 +176,9 @@ public class SystemUpdaterActivity extends Activity {
             }
             File dest = new File(getCacheDir(), UPDATE_FILE_NAME);
             try {
-              copy(file, dest);
+                copy(file, dest);
             } catch (IOException e) {
-                Log.e(TAG, "Error when coping file to cache", e);
+                Log.e(TAG, "Error when copying file to cache", e);
                 dest.delete();
                 return new IOException(e.getMessage());
             }
