@@ -15,7 +15,7 @@
     limitations under the License.
 -->
 <resources>
-    <!-- The default color for all activities in the SetupWizard. -->
+    <!-- The default color for all activities in the Settings. -->
     <color name="windowBackground">@color/car_grey_50</color>
 
     <!-- The color of the status bar. -->

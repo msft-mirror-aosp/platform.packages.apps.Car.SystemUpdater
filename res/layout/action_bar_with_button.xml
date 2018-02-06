@@ -43,6 +43,23 @@
         android:layout_toEndOf="@id/action_bar_icon_container"
         android:gravity="center_vertical"
         android:textAppearance="@style/CarTitle2"
-        android:textColor="@color/car_accent"/>
+        android:textColor="@color/car_accent"
+        android:text="@string/title"/>
+
+    <Button
+        android:id="@+id/system_update_auto_toolbar_action"
+        style="@style/SystemUpdateAutoToolbarAction"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"/>
+
+    <ProgressBar
+         android:id="@+id/progress_bar"
+         style="@style/Widget.Car.ProgressBar.Horizontal"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:visibility="gone"/>
 
 </RelativeLayout>

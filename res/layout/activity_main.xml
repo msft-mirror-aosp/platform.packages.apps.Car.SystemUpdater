@@ -17,17 +17,16 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/car_app_bar_height"
-        app:theme="@style/ActionBarStyle.Car"
-        app:contentInsetStart="0dp" />
+        android:theme="@style/ActionBarStyle.Car"
+        app:contentInsetStart="0dp"
+        app:contentInsetEnd="0dp"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/car_list_divider_height"
