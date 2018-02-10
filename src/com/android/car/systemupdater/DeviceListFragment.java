@@ -25,31 +25,39 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Log;
-
-import androidx.car.widget.PagedListView;
-import androidx.car.widget.ListItem;
-import androidx.car.widget.ListItemAdapter;
-import androidx.car.widget.ListItemProvider;
-import androidx.car.widget.TextListItem;
 
 import java.io.File;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
+import androidx.car.widget.ListItem;
+import androidx.car.widget.ListItemAdapter;
+import androidx.car.widget.ListItemProvider;
+import androidx.car.widget.PagedListView;
+import androidx.car.widget.TextListItem;
+
 /**
-* Display a list of files and directories.
-*/
+ * Display a list of files and directories.
+ */
 public class DeviceListFragment extends Fragment {
 
     private static final String TAG = "DeviceListFragment";
     private static final String UPDATE_FILE_SUFFIX = ".zip";
+    private static final FileFilter UPDATE_FILE_FILTER =
+            file -> !file.isHidden() && (file.isDirectory()
+                    || file.getName().toLowerCase().endsWith(UPDATE_FILE_SUFFIX));
+
 
     private final Stack<File> mFileStack = new Stack<>();
     private StorageManager mStorageManager;
@@ -57,6 +65,7 @@ public class DeviceListFragment extends Fragment {
     private List<File> mListItems;
     private ListItemAdapter mAdapter;
     private FileItemProvider mItemProvider;
+    private TextView mCurrentPathView;
 
     private final StorageEventListener mListener = new StorageEventListener() {
         @Override
@@ -91,21 +100,22 @@ public class DeviceListFragment extends Fragment {
             Toast.makeText(context, R.string.cannot_access_storage, Toast.LENGTH_LONG).show();
             return;
         }
-        showMountedVolumes();
     }
 
-   @Override
-   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-           Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         mAdapter = new ListItemAdapter(getContext(), mItemProvider);
         return inflater.inflate(R.layout.folder_list, container, false);
-   }
+    }
 
-   @Override
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         PagedListView folderListView = (PagedListView) view.findViewById(R.id.folder_list);
         folderListView.setMaxPages(PagedListView.ItemCap.UNLIMITED);
         folderListView.setAdapter(mAdapter);
+
+        mCurrentPathView = (TextView) view.findViewById(R.id.current_path);
     }
 
     @Override
@@ -118,6 +128,8 @@ public class DeviceListFragment extends Fragment {
         actionBar.setDisplayShowTitleEnabled(false);
         activity.findViewById(R.id.action_bar_icon_container)
                 .setOnClickListener(v -> onBackPressed());
+
+        showMountedVolumes();
     }
 
     @Override
@@ -145,10 +157,15 @@ public class DeviceListFragment extends Fragment {
         ArrayList<File> volumes = new ArrayList<>(vols.size());
         for (VolumeInfo vol : vols) {
             File path = vol.getPathForUser(getActivity().getUserId());
-            if (vol.getState() == VolumeInfo.STATE_MOUNTED && path != null) {
+            if (vol.getState() == VolumeInfo.STATE_MOUNTED
+                    && vol.getType() == VolumeInfo.TYPE_PUBLIC
+                    && path != null) {
                 volumes.add(path);
             }
         }
+
+        // Otherwise show all of the available volumes.
+        mCurrentPathView.setText(getString(R.string.volumes, volumes.size()));
         setFileList(volumes);
     }
 
@@ -198,11 +215,13 @@ public class DeviceListFragment extends Fragment {
             return;
         }
 
+        mCurrentPathView.setText(getString(R.string.path, folder.getAbsolutePath()));
+
         // Retrieve the list of files and update the displayed list.
         new AsyncTask<File, Void, File[]>() {
             @Override
             protected File[] doInBackground(File... file) {
-                return file[0].listFiles();
+                return file[0].listFiles(UPDATE_FILE_FILTER);
             }
 
             @Override
@@ -210,6 +229,8 @@ public class DeviceListFragment extends Fragment {
                 super.onPostExecute(results);
                 if (results == null) {
                     results = new File[0];
+                    Toast.makeText(getContext(), R.string.cannot_access_storage,
+                            Toast.LENGTH_LONG).show();
                 }
                 setFileList(Arrays.asList(results));
             }
@@ -232,7 +253,7 @@ public class DeviceListFragment extends Fragment {
             TextListItem item = new TextListItem(mContext);
             File file = mListItems.get(position);
             if (file != null) {
-                item.setTitle(file.getAbsolutePath());
+                item.setTitle(file.getName());
                 item.setOnClickListener(v -> onFileSelected(file));
             } else {
                 item.setTitle(getString(R.string.unknown_file));
@@ -242,7 +263,7 @@ public class DeviceListFragment extends Fragment {
 
         @Override
         public int size() {
-            return mListItems.size();
+            return mListItems == null ? 0 : mListItems.size();
         }
     }
 

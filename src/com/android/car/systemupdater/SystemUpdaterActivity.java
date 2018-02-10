@@ -15,7 +15,11 @@
  */
 package com.android.car.systemupdater;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -27,9 +31,22 @@ import java.io.File;
 public class SystemUpdaterActivity extends AppCompatActivity
         implements DeviceListFragment.SystemUpdater {
 
+    private static final int STORAGE_PERMISSIONS_REQUEST_CODE = 0;
+    private static final String[] REQUIRED_STORAGE_PERMISSIONS = new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, REQUIRED_STORAGE_PERMISSIONS,
+                    STORAGE_PERMISSIONS_REQUEST_CODE);
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -39,6 +56,22 @@ public class SystemUpdaterActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.device_container, fragment)
                     .commitNow();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[],
+            int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (STORAGE_PERMISSIONS_REQUEST_CODE == requestCode) {
+            if (grantResults.length == 0) {
+                finish();
+            }
+            for (int grantResult : grantResults) {
+                if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                    finish();
+                }
+            }
         }
     }
 

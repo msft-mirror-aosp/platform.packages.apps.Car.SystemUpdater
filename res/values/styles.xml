@@ -60,4 +60,8 @@
     <item name="android:background">?android:selectableItemBackground</item>
     <item name="android:gravity">center</item>
   </style>
+
+  <style name="ListPath" parent="CarBody2">
+      <item name="android:textColor">@color/car_accent</item>
+  </style>
 </resources>
