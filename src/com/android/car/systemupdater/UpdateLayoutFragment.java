@@ -15,9 +15,13 @@
  */
 package com.android.car.systemupdater;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.RecoverySystem;
+import android.os.Handler;
+import android.os.PowerManager;
+import android.os.UpdateEngine;
+import android.os.UpdateEngineCallback;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
@@ -32,20 +36,17 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.internal.util.Preconditions;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.GeneralSecurityException;
 
 /** Display update state and progress. */
 public class UpdateLayoutFragment extends Fragment {
     private static final String TAG = "UpdateLayoutFragment";
-    private static final int COPY_BUF_SIZE = 0x10000; // 64k
     private static final String EXTRA_UPDATE_FILE = "extra_update_file";
-    private static final String UPDATE_FILE_NAME = "update.zip";
+    private static final int PERCENT_MAX = 100;
+    private static final String REBOOT_REASON = "reboot-ab-update";
 
     private ProgressBar mProgressBar;
     private TextView mContentTitle;
@@ -53,9 +54,11 @@ public class UpdateLayoutFragment extends Fragment {
     private TextView mContentDetails;
     private File mUpdateFile;
     private Button mSystemUpdateToolbarAction;
-    private PackageVerifier mPackageVerifier;
-    private CopyFile mCopyFile;
-    private InstallUpdate mInstallUpdate;
+    private PowerManager mPowerManager;
+    private final UpdateVerifier mPackageVerifier = new UpdateVerifier();
+    private final UpdateEngine mUpdateEngine = new UpdateEngine();
+
+    private final CarUpdateEngineCallback mCarUpdateEngineCallback = new CarUpdateEngineCallback();
 
     /** Create a {@link DeviceListFragment}. */
     public static UpdateLayoutFragment getInstance(File file) {
@@ -71,11 +74,12 @@ public class UpdateLayoutFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mUpdateFile = new File(getArguments().getString(EXTRA_UPDATE_FILE));
+        mPowerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-           Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         return inflater.inflate(R.layout.system_update_auto_content, container, false);
     }
 
@@ -102,31 +106,28 @@ public class UpdateLayoutFragment extends Fragment {
         mProgressBar = (ProgressBar) activity.findViewById(R.id.progress_bar);
 
         mSystemUpdateToolbarAction = activity.findViewById(R.id.system_update_auto_toolbar_action);
+        mProgressBar.setIndeterminate(true);
+        mProgressBar.setVisibility(View.VISIBLE);
+        showStatus(R.string.verify_in_progress);
 
-        mPackageVerifier = new PackageVerifier();
         mPackageVerifier.execute(mUpdateFile);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (mCopyFile != null) {
-            mCopyFile.cancel(true);
-        }
-        if (mInstallUpdate != null) {
-            mInstallUpdate.cancel(true);
-        }
         if (mPackageVerifier != null) {
             mPackageVerifier.cancel(true);
         }
     }
 
+    /** Update the status information. */
     private void showStatus(@StringRes int status) {
         mContentTitle.setText(status);
     }
 
     /** Show the install now button. */
-    private void showInstallNow(File update) {
+    private void showInstallNow(UpdateParser.ParsedUpdate update) {
         mContentTitle.setText(R.string.install_ready);
         mContentInfo.append(getString(R.string.update_file_name, mUpdateFile.getName()));
         mContentInfo.append(System.getProperty("line.separator"));
@@ -138,141 +139,92 @@ public class UpdateLayoutFragment extends Fragment {
         mSystemUpdateToolbarAction.setVisibility(View.VISIBLE);
     }
 
-    /** Attempt to install the update that is copied to the device. */
-    private void installUpdate(File update) {
-        mInstallUpdate = new InstallUpdate();
-        mInstallUpdate.execute(update);
+    /** Reboot the system. */
+    private void rebootNow() {
+        if (Log.isLoggable(TAG, Log.INFO)) {
+            Log.i(TAG, "Rebooting Now.");
+        }
+        mPowerManager.reboot(REBOOT_REASON);
     }
 
-    /** Attempt to verify the package. */
-    private class PackageVerifier extends AsyncTask<File, Void, File> {
+    /** Attempt to install the update that is copied to the device. */
+    private void installUpdate(UpdateParser.ParsedUpdate parsedUpdate) {
+        mProgressBar.setIndeterminate(false);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setMax(PERCENT_MAX);
+        mSystemUpdateToolbarAction.setVisibility(View.GONE);
+        showStatus(R.string.install_in_progress);
+
+        mUpdateEngine.bind(mCarUpdateEngineCallback,
+                new Handler(getContext().getMainLooper()));
+        mUpdateEngine.applyPayload(
+                parsedUpdate.mUrl, parsedUpdate.mOffset, parsedUpdate.mSize, parsedUpdate.mProps);
+
+    }
+
+    /** Attempt to verify the update and extract information needed for installation. */
+    private class UpdateVerifier extends AsyncTask<File, Void, UpdateParser.ParsedUpdate> {
 
         @Override
-        public void onPreExecute() {
-            mProgressBar.setIndeterminate(true);
-            mProgressBar.setVisibility(View.VISIBLE);
-            showStatus(R.string.verify_in_progress);
-        }
-
-        @Override
-        protected File doInBackground(File... files) {
+        protected UpdateParser.ParsedUpdate doInBackground(File... files) {
+            Preconditions.checkArgument(files.length > 0, "No file specified");
             File file = files[0];
             try {
-                RecoverySystem.verifyPackage(file, null, null);
-                return file;
-            } catch (GeneralSecurityException | IOException e) {
-                Log.e(TAG, String.format("While verifying package: %s", file), e);
+                return UpdateParser.parse(file);
+            } catch (IOException e) {
+                Log.e(TAG, String.format("For file %s", file), e);
                 return null;
             }
         }
 
         @Override
-        protected void onPostExecute(File result) {
+        protected void onPostExecute(UpdateParser.ParsedUpdate result) {
             mProgressBar.setVisibility(View.GONE);
             if (result == null) {
                 showStatus(R.string.verify_failure);
                 return;
             }
-
-            mCopyFile = new CopyFile();
-            mCopyFile.execute(result);
-        }
-    }
-
-    /** Copy the update file to the data partition so it can be installed. */
-    private class CopyFile extends AsyncTask<File, Integer, File> {
-        private final File mCacheDir;
-
-        CopyFile() {
-            mCacheDir = getContext().getCacheDir();
-        }
-
-        @Override
-        public void onPreExecute() {
-            showStatus(R.string.copy_in_progress);
-            mProgressBar.setIndeterminate(false);
-            mProgressBar.setVisibility(View.VISIBLE);
-            mProgressBar.setMax((int)(mUpdateFile.length() / COPY_BUF_SIZE));
-        }
-
-        @Override
-        protected File doInBackground(File... files) {
-            final File file = files[0];
-            if (mCacheDir.getFreeSpace() < file.length()) {
-                Log.e(TAG, "Not enough cache space!");
-                return null;
-            }
-            final File dest = new File(mCacheDir, UPDATE_FILE_NAME);
-            try {
-                copy(file, dest);
-                return dest;
-            } catch (IOException e) {
-                Log.e(TAG, "Error when copying file to cache", e);
-                dest.delete();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(File result) {
-            mProgressBar.setVisibility(View.GONE);
-            if (result == null) {
-                // Copy failed
-                showStatus(R.string.copy_failure);
+            if (!result.isValid()) {
+                showStatus(R.string.verify_failure);
+                Log.e(TAG, String.format("Failed verification %s", result));
                 return;
+            }
+            if (Log.isLoggable(TAG, Log.INFO)) {
+                Log.i(TAG, result.toString());
             }
 
             showInstallNow(result);
         }
-
-        protected void onProgressUpdate(Integer... progress) {
-            mProgressBar.incrementProgressBy(progress[0]);
-        }
-
-        /** Copy a file from {@code src} to {@code dest}. */
-        private void copy(File src, File dst) throws IOException {
-            try (InputStream in = new FileInputStream(src);
-                 OutputStream out = new FileOutputStream(dst)) {
-                final byte[] buf = new byte[COPY_BUF_SIZE];
-                int len;
-                int count = 0;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                    publishProgress(++count);
-                }
-            }
-        }
     }
 
-    /** Attempt to install the package. */
-    private class InstallUpdate extends AsyncTask<File, Void, Boolean> {
+    /** Handles events from the UpdateEngine. */
+    public class CarUpdateEngineCallback extends UpdateEngineCallback {
 
         @Override
-        public void onPreExecute() {
-            mProgressBar.setIndeterminate(true);
-            mProgressBar.setVisibility(View.VISIBLE);
-            mSystemUpdateToolbarAction.setVisibility(View.GONE);
-            showStatus(R.string.install_in_progress);
-        }
-
-        @Override
-        protected Boolean doInBackground(File... files) {
-            File file = files[0];
-            try {
-                RecoverySystem.installPackage(getContext(), file);
-                return true;
-            } catch (IOException e) {
-                Log.e(TAG, "While installing the update package", e);
-                return false;
+        public void onStatusUpdate(int status, float percent) {
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, String.format("onStatusUpdate %d, Percent %.2f", status, percent));
+            }
+            switch (status) {
+                case UpdateEngine.UpdateStatusConstants.UPDATED_NEED_REBOOT:
+                    rebootNow();
+                    break;
+                case UpdateEngine.UpdateStatusConstants.DOWNLOADING:
+                    mProgressBar.setProgress((int) (percent * 100));
+                    break;
+                default:
+                    // noop
             }
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
+        public void onPayloadApplicationComplete(int errorCode) {
+            Log.w(TAG, String.format("onPayloadApplicationComplete %d", errorCode));
+            showStatus(errorCode == UpdateEngine.ErrorCodeConstants.SUCCESS
+                    ? R.string.install_success
+                    : R.string.install_failed);
             mProgressBar.setVisibility(View.GONE);
             mSystemUpdateToolbarAction.setVisibility(View.GONE);
-
-            showStatus(result ? R.string.install_success : R.string.install_failed);
         }
     }
 }
