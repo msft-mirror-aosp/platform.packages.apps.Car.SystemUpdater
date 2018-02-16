@@ -15,13 +15,13 @@
   limitations under the License.
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <style name="Theme.Car.Settings.NoActionBar" parent="Theme.Car.NoActionBar">
+  <style name="Theme.Car.Settings.NoActionBar" parent="Theme.Car.Light.NoActionBar">
       <item name="android:windowBackground">@color/windowBackground</item>
       <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
       <item name="android:windowLightStatusBar">true</item>
   </style>
 
-  <style name="ActionBarStyle.Car" parent="@style/CarToolbarTheme">
+  <style name="ActionBarStyle.Car" parent="@style/Widget.Car.Toolbar">
       <item name="actionBarSize">@dimen/car_app_bar_height</item>
   </style>
 
@@ -39,7 +39,7 @@
       <item name="android:layout_gravity">center</item>
       <item name="android:src">@drawable/ic_arrow_back</item>
   </style>
-  <style name="SettingsListHeader" parent="CarTitle">
+  <style name="SettingsListHeader" parent="TextAppearance.Car.Title2">
       <item name="android:textColor">@color/car_accent</item>
   </style>
 
@@ -61,7 +61,7 @@
     <item name="android:gravity">center</item>
   </style>
 
-  <style name="ListPath" parent="CarBody2">
+  <style name="ListPath" parent="TextAppearance.Car.Body2">
       <item name="android:textColor">@color/car_accent</item>
   </style>
 </resources>

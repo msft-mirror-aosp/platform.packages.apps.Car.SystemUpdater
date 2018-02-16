@@ -30,21 +30,21 @@
         android:orientation="vertical">
 
       <TextView
-          android:textAppearance="@style/CarBody1"
+          android:textAppearance="@style/TextAppearance.Car.Body1"
           android:id="@+id/system_update_auto_content_title"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginBottom="@dimen/car_padding_1"/>
 
       <TextView
-          android:textAppearance="@style/CarBody2"
+          android:textAppearance="@style/TextAppearance.Car.Body2"
           android:id="@+id/system_update_auto_content_info"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginBottom="@dimen/car_padding_5"/>
 
       <TextView
-          android:textAppearance="@style/CarBody2"
+          android:textAppearance="@style/TextAppearance.Car.Body2"
           android:id="@+id/system_update_auto_content_details"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
