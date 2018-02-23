@@ -24,6 +24,7 @@ LOCAL_SRC_FILES := $(call all-java-files-under, src)
 LOCAL_CERTIFICATE := platform
 
 LOCAL_PACKAGE_NAME := SystemUpdater
+LOCAL_PRIVATE_PLATFORM_APIS := true
 
 LOCAL_DEX_PREOPT := false
 
