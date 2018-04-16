@@ -37,8 +37,8 @@ LOCAL_PROGUARD_ENABLED := disabled
 LOCAL_DX_FLAGS := --multi-dex
 
 LOCAL_STATIC_ANDROID_LIBRARIES := \
-        $(ANDROID_SUPPORT_CAR_TARGETS) \
-        android-support-v4 \
-        android-support-v7-appcompat
+    androidx.appcompat_appcompat \
+    androidx.car_car \
+    androidx.legacy_legacy-support-v4
 
 include $(BUILD_PACKAGE)
