@@ -15,7 +15,13 @@
  */
 package com.android.car.systemupdater;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,10 +50,14 @@ import java.io.IOException;
 
 /** Display update state and progress. */
 public class UpdateLayoutFragment extends Fragment {
+    public static final String EXTRA_RESUME_UPDATE = "resume_update";
+
     private static final String TAG = "UpdateLayoutFragment";
     private static final String EXTRA_UPDATE_FILE = "extra_update_file";
     private static final int PERCENT_MAX = 100;
     private static final String REBOOT_REASON = "reboot-ab-update";
+    private static final String NOTIFICATION_CHANNEL_ID = "update";
+    private static final int NOTIFICATION_ID = 1;
 
     private ProgressBar mProgressBar;
     private TextView mContentTitle;
@@ -56,12 +66,14 @@ public class UpdateLayoutFragment extends Fragment {
     private File mUpdateFile;
     private Button mSystemUpdateToolbarAction;
     private PowerManager mPowerManager;
+    private NotificationManager mNotificationManager;
     private final UpdateVerifier mPackageVerifier = new UpdateVerifier();
     private final UpdateEngine mUpdateEngine = new UpdateEngine();
+    private boolean mInstallationInProgress = false;
 
     private final CarUpdateEngineCallback mCarUpdateEngineCallback = new CarUpdateEngineCallback();
 
-    /** Create a {@link DeviceListFragment}. */
+    /** Create a {@link UpdateLayoutFragment}. */
     public static UpdateLayoutFragment getInstance(File file) {
         UpdateLayoutFragment fragment = new UpdateLayoutFragment();
         Bundle bundle = new Bundle();
@@ -70,12 +82,30 @@ public class UpdateLayoutFragment extends Fragment {
         return fragment;
     }
 
+    /** Create a {@link UpdateLayoutFragment} showing an update in progress. */
+    public static UpdateLayoutFragment newResumedInstance() {
+        UpdateLayoutFragment fragment = new UpdateLayoutFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(EXTRA_RESUME_UPDATE, true);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mUpdateFile = new File(getArguments().getString(EXTRA_UPDATE_FILE));
+        if (!getArguments().getBoolean(EXTRA_RESUME_UPDATE)) {
+            mUpdateFile = new File(getArguments().getString(EXTRA_UPDATE_FILE));
+        }
         mPowerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+        mNotificationManager =
+                (NotificationManager) getContext().getSystemService(NotificationManager.class);
+        mNotificationManager.createNotificationChannel(
+                new NotificationChannel(
+                        NOTIFICATION_CHANNEL_ID,
+                        getContext().getString(R.id.system_update_auto_content_title),
+                        NotificationManager.IMPORTANCE_DEFAULT));
     }
 
     @Override
@@ -111,7 +141,13 @@ public class UpdateLayoutFragment extends Fragment {
         mProgressBar.setVisibility(View.VISIBLE);
         showStatus(R.string.verify_in_progress);
 
-        mPackageVerifier.execute(mUpdateFile);
+        if (getArguments().getBoolean(EXTRA_RESUME_UPDATE)) {
+            // Rejoin the update already in progress.
+            showInstallationInProgress();
+        } else {
+            // Extract the necessary information and begin the update.
+            mPackageVerifier.execute(mUpdateFile);
+        }
     }
 
     @Override
@@ -125,6 +161,9 @@ public class UpdateLayoutFragment extends Fragment {
     /** Update the status information. */
     private void showStatus(@StringRes int status) {
         mContentTitle.setText(status);
+        if (mInstallationInProgress) {
+            mNotificationManager.notify(NOTIFICATION_ID, createNotification(getContext(), status));
+        }
     }
 
     /** Show the install now button. */
@@ -150,17 +189,21 @@ public class UpdateLayoutFragment extends Fragment {
 
     /** Attempt to install the update that is copied to the device. */
     private void installUpdate(UpdateParser.ParsedUpdate parsedUpdate) {
+        showInstallationInProgress();
+        mUpdateEngine.applyPayload(
+                parsedUpdate.mUrl, parsedUpdate.mOffset, parsedUpdate.mSize, parsedUpdate.mProps);
+    }
+
+    /** Set the layout to show installation progress. */
+    private void showInstallationInProgress() {
+        mInstallationInProgress = true;
         mProgressBar.setIndeterminate(false);
         mProgressBar.setVisibility(View.VISIBLE);
         mProgressBar.setMax(PERCENT_MAX);
         mSystemUpdateToolbarAction.setVisibility(View.GONE);
         showStatus(R.string.install_in_progress);
 
-        mUpdateEngine.bind(mCarUpdateEngineCallback,
-                new Handler(getContext().getMainLooper()));
-        mUpdateEngine.applyPayload(
-                parsedUpdate.mUrl, parsedUpdate.mOffset, parsedUpdate.mSize, parsedUpdate.mProps);
-
+        mUpdateEngine.bind(mCarUpdateEngineCallback, new Handler(getContext().getMainLooper()));
     }
 
     /** Attempt to verify the update and extract information needed for installation. */
@@ -227,5 +270,28 @@ public class UpdateLayoutFragment extends Fragment {
             mProgressBar.setVisibility(View.GONE);
             mSystemUpdateToolbarAction.setVisibility(View.GONE);
         }
+    }
+
+    /** Build a notification to show the installation status. */
+    private static Notification createNotification(Context context, @StringRes int contents) {
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName(context, SystemUpdaterActivity.class));
+        intent.putExtra(EXTRA_RESUME_UPDATE, true);
+        PendingIntent pendingIntent =
+                PendingIntent.getActivity(
+                        context,
+                        /* requestCode= */ 0,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+        return new Notification.Builder(context, NOTIFICATION_CHANNEL_ID)
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
+                .setContentTitle(context.getString(contents))
+                .setSmallIcon(R.drawable.ic_system_update_alt_black_48dp)
+                .setContentIntent(pendingIntent)
+                .setShowWhen(false)
+                .setOngoing(true)
+                .setAutoCancel(false)
+                .build();
     }
 }
