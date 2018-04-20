@@ -15,6 +15,8 @@
  */
 package com.android.car.systemupdater;
 
+import static com.android.car.systemupdater.UpdateLayoutFragment.EXTRA_RESUME_UPDATE;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -53,10 +55,18 @@ public class SystemUpdaterActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         if (savedInstanceState == null) {
-            DeviceListFragment fragment = new DeviceListFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.device_container, fragment)
-                    .commitNow();
+            Bundle intentExtras = getIntent().getExtras();
+            if (intentExtras != null && intentExtras.getBoolean(EXTRA_RESUME_UPDATE)) {
+                UpdateLayoutFragment fragment = UpdateLayoutFragment.newResumedInstance();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.device_container, fragment)
+                        .commitNow();
+            } else {
+                DeviceListFragment fragment = new DeviceListFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.device_container, fragment)
+                        .commitNow();
+            }
         }
     }
 
