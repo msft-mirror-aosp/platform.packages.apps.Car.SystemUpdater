@@ -14,54 +14,42 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <style name="Theme.Car.Settings.NoActionBar" parent="Theme.Car.Light.NoActionBar">
-      <item name="android:windowBackground">@color/windowBackground</item>
-      <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
-      <item name="android:windowLightStatusBar">true</item>
-  </style>
 
-  <style name="ActionBarStyle.Car" parent="@style/Widget.Car.Toolbar">
-      <item name="actionBarSize">@dimen/car_app_bar_height</item>
-  </style>
+<resources>
+    <style name="Theme.SettingsBase" parent="@android:style/Theme.Material.Settings" />
 
-  <style name="ListIcon">
-      <item name="android:layout_width">@dimen/car_primary_icon_size</item>
-      <item name="android:layout_height">@dimen/car_primary_icon_size</item>
-      <item name="android:layout_centerVertical">true</item>
-      <item name="android:gravity">center_vertical</item>
-      <item name="android:scaleType">fitCenter</item>
-      <item name="android:tint">@color/car_tint</item>
-  </style>
+    <style name="SystemUpdaterTheme" parent="Theme.Car.Light.NoActionBar">
+        <item name="android:windowBackground">@color/car_card</item>
+        <item name="android:windowAnimationStyle">@style/SettingAnimationStyle</item>
+    </style>
 
-  <style name="ListIcon.ActionBar" parent="ListIcon">
-      <item name="android:tint">@color/car_accent</item>
-      <item name="android:layout_gravity">center</item>
-      <item name="android:src">@drawable/ic_arrow_back</item>
-  </style>
-  <style name="SettingsListHeader" parent="TextAppearance.Car.Title2">
-      <item name="android:textColor">@color/car_accent</item>
-  </style>
+    <style name="SettingAnimationStyle">
+        <item name="android:windowEnterAnimation">@anim/trans_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/trans_fade_out</item>
+    </style>
 
-  <style name="Widget.Car.Settings.ActionBar.Button.Borderless.Colored"
-         parent="Widget.Car.Button.Borderless.Colored">
-      <item name="android:minWidth">@dimen/car_button_min_width</item>
-      <item name="android:fontFamily">roboto-regular</item>
-      <item name="android:textColor">@color/action_bar_btn</item>
-  </style>
+    <style name="ActionBarStyle.Car" parent="Widget.Car.Toolbar">
+        <item name="actionBarSize">@dimen/car_app_bar_height</item>
+    </style>
 
-  <style name="SystemUpdateAutoToolbarAction">
-    <item name="android:textSize">@dimen/system_update_auto_toolbar_action_size</item>
-    <item name="android:textAllCaps">true</item>
-    <item name="android:fontFamily">sans-serif-medium</item>
-    <item name="android:textColor">@color/car_accent</item>
-    <item name="android:paddingLeft">@dimen/car_padding_5</item>
-    <item name="android:paddingRight">@dimen/car_padding_5</item>
-    <item name="android:background">?android:selectableItemBackground</item>
-    <item name="android:gravity">center</item>
-  </style>
+    <style name="ListIcon">
+        <item name="android:layout_width">@dimen/car_primary_icon_size</item>
+        <item name="android:layout_height">@dimen/car_primary_icon_size</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:tint">@color/car_tint</item>
+    </style>
 
-  <style name="ListPath" parent="TextAppearance.Car.Body2">
-      <item name="android:textColor">@color/car_accent</item>
-  </style>
+    <style name="ListIcon.ActionBar" parent="ListIcon">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:src">@drawable/ic_arrow_back</item>
+    </style>
+
+    <style name="SystemUpdate.ActionBar.Button.Borderless.Colored"
+           parent="Widget.Car.Button.Borderless.Colored">
+        <item name="android:minWidth">@dimen/car_button_min_width</item>
+        <item name="android:fontFamily">roboto-regular</item>
+        <item name="android:textColor">@color/car_accent</item>
+    </style>
 </resources>
