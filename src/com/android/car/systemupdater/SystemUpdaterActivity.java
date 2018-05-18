@@ -20,6 +20,7 @@ import static com.android.car.systemupdater.UpdateLayoutFragment.EXTRA_RESUME_UP
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -34,6 +35,7 @@ import java.io.File;
 public class SystemUpdaterActivity extends AppCompatActivity
         implements DeviceListFragment.SystemUpdater {
 
+    private static final String FRAGMENT_TAG = "FRAGMENT_TAG";
     private static final int STORAGE_PERMISSIONS_REQUEST_CODE = 0;
     private static final String[] REQUIRED_STORAGE_PERMISSIONS = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -59,15 +61,28 @@ public class SystemUpdaterActivity extends AppCompatActivity
             if (intentExtras != null && intentExtras.getBoolean(EXTRA_RESUME_UPDATE)) {
                 UpdateLayoutFragment fragment = UpdateLayoutFragment.newResumedInstance();
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.device_container, fragment)
+                        .replace(R.id.device_container, fragment, FRAGMENT_TAG)
                         .commitNow();
             } else {
                 DeviceListFragment fragment = new DeviceListFragment();
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.device_container, fragment)
+                        .replace(R.id.device_container, fragment, FRAGMENT_TAG)
                         .commitNow();
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            UpFragment upFragment =
+                    (UpFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+            if (!upFragment.goUp()) {
+                onBackPressed();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -90,7 +105,7 @@ public class SystemUpdaterActivity extends AppCompatActivity
     public void applyUpdate(File file) {
         UpdateLayoutFragment fragment = UpdateLayoutFragment.getInstance(file);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.device_container, fragment)
+                .replace(R.id.device_container, fragment, FRAGMENT_TAG)
                 .addToBackStack(null)
                 .commit();
     }
