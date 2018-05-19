@@ -49,7 +49,7 @@ import java.io.File;
 import java.io.IOException;
 
 /** Display update state and progress. */
-public class UpdateLayoutFragment extends Fragment {
+public class UpdateLayoutFragment extends Fragment implements UpFragment {
     public static final String EXTRA_RESUME_UPDATE = "resume_update";
 
     private static final String TAG = "UpdateLayoutFragment";
@@ -131,12 +131,10 @@ public class UpdateLayoutFragment extends Fragment {
         actionBar.setCustomView(R.layout.action_bar_with_button);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-        activity.findViewById(R.id.action_bar_icon_container)
-                .setOnClickListener(v -> activity.onBackPressed());
 
         mProgressBar = (ProgressBar) activity.findViewById(R.id.progress_bar);
 
-        mSystemUpdateToolbarAction = activity.findViewById(R.id.system_update_auto_toolbar_action);
+        mSystemUpdateToolbarAction = activity.findViewById(R.id.action_button1);
         mProgressBar.setIndeterminate(true);
         mProgressBar.setVisibility(View.VISIBLE);
         showStatus(R.string.verify_in_progress);
@@ -163,6 +161,8 @@ public class UpdateLayoutFragment extends Fragment {
         mContentTitle.setText(status);
         if (mInstallationInProgress) {
             mNotificationManager.notify(NOTIFICATION_ID, createNotification(getContext(), status));
+        } else {
+            mNotificationManager.cancel(NOTIFICATION_ID);
         }
     }
 
@@ -264,6 +264,7 @@ public class UpdateLayoutFragment extends Fragment {
         @Override
         public void onPayloadApplicationComplete(int errorCode) {
             Log.w(TAG, String.format("onPayloadApplicationComplete %d", errorCode));
+            mInstallationInProgress = false;
             showStatus(errorCode == UpdateEngine.ErrorCodeConstants.SUCCESS
                     ? R.string.install_success
                     : R.string.install_failed);
