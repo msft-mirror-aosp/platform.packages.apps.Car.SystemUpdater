@@ -26,11 +26,10 @@
 
     <application
             android:label="@string/title"
-            android:theme="@style/Theme.Car.Settings.NoActionBar">
+            android:theme="@style/SystemUpdaterTheme">
         <activity
             android:name="com.android.car.systemupdater.SystemUpdaterActivity"
-            android:label="@string/title"
-            android:theme="@style/Theme.Car.Settings.NoActionBar" >
+            android:label="@string/title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

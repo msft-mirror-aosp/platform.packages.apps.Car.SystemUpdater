@@ -48,7 +48,7 @@ import java.util.Stack;
 /**
  * Display a list of files and directories.
  */
-public class DeviceListFragment extends Fragment {
+public class DeviceListFragment extends Fragment implements UpFragment {
 
     private static final String TAG = "DeviceListFragment";
     private static final String UPDATE_FILE_SUFFIX = ".zip";
@@ -72,6 +72,7 @@ public class DeviceListFragment extends Fragment {
                 Log.d(TAG, String.format(
                         "onVolumeMetadataChanged %d %d %s", oldState, newState, vol.toString()));
             }
+            mFileStack.clear();
             showMountedVolumes();
         }
     };
@@ -124,8 +125,6 @@ public class DeviceListFragment extends Fragment {
         actionBar.setCustomView(R.layout.action_bar_with_button);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-        activity.findViewById(R.id.action_bar_icon_container)
-                .setOnClickListener(v -> onBackPressed());
 
         showMountedVolumes();
     }
@@ -178,6 +177,7 @@ public class DeviceListFragment extends Fragment {
     /** Handle user selection of a file. */
     private void onFileSelected(File file) {
         if (isUpdateFile(file)) {
+            mFileStack.clear();
             mSystemUpdater.applyUpdate(file);
         } else if (file.isDirectory()) {
             showFolderContent(file);
@@ -187,11 +187,10 @@ public class DeviceListFragment extends Fragment {
         }
     }
 
-    /** Handle user pressing the back button. */
-    private void onBackPressed() {
+    @Override
+    public boolean goUp() {
         if (mFileStack.empty()) {
-            getActivity().onBackPressed();
-            return;
+            return false;
         }
         mFileStack.pop();
         if (!mFileStack.empty()) {
@@ -201,6 +200,7 @@ public class DeviceListFragment extends Fragment {
             // When the stack is empty, display the volumes and reset the title.
             showMountedVolumes();
         }
+        return true;
     }
 
     /** Display the content at the provided {@code location}. */
