@@ -45,7 +45,7 @@
             <meta-data android:name="com.android.settings.icon"
                        android:resource="@drawable/ic_system_update_alt_black_48dp" />
             <meta-data android:name="com.android.settings.category"
-                       android:value="com.android.settings.category.system" />
+                       android:value="com.android.settings.category.ia.system" />
         </activity>
     </application>
 </manifest>
