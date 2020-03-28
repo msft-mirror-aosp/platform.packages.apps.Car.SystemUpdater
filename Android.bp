@@ -29,7 +29,7 @@ android_app {
     dxflags: ["--multi-dex"],
     static_libs: [
         "androidx.appcompat_appcompat",
-        "androidx.car_car",
         "androidx.legacy_legacy-support-v4",
+        "car-ui-lib",
     ],
 }
