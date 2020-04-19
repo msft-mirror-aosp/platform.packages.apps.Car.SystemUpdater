@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"ຕິດຕັ້ງຕອນນີ້"</string>
     <string name="update_failed" msgid="6878694841476888954">"ອັບເດດບໍ່ສຳເລັດ"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"ກຳລັງຢັ້ງຢືນການອັບເດດ…"</string>
-    <string name="verify_failure" msgid="9125591747058765589">"ຢັ້ງຢືນບໍ່ສຳເລັດ. ເລືອກໄຟລ໌ອັບເດດທີ່ຖືກຕ້ອງ."</string>
+    <string name="verify_failure" msgid="5077656735909871291">"ກະລຸນາເລືອກໄຟລ໌ອັບເດດທີ່ຖືກຕ້ອງ."</string>
     <string name="install_ready" msgid="5831701403889581045">"ການອັບເດດພ້ອມໃຫ້ຕິດຕັ້ງແລ້ວ."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"ການຕິດຕັ້ງພວມດຳເນີນຢູ່…"</string>
     <string name="install_success" msgid="7607370228817982339">"ການອັບເດດສຳເລັດແລ້ວ."</string>
