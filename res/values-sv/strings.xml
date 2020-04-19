@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"Installera nu"</string>
     <string name="update_failed" msgid="6878694841476888954">"Det gick inte att uppdatera"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"Uppdateringen verifieras …"</string>
-    <string name="verify_failure" msgid="9125591747058765589">"Det gick inte att verifiera. Välj en giltig fil."</string>
+    <string name="verify_failure" msgid="5077656735909871291">"Välj en giltig uppdateringsfil."</string>
     <string name="install_ready" msgid="5831701403889581045">"Uppdateringen är klar att installera."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"Installation pågår …"</string>
     <string name="install_success" msgid="7607370228817982339">"Uppdateringen lyckades."</string>

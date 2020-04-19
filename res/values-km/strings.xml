@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"ដំឡើង​ឥឡូវនេះ"</string>
     <string name="update_failed" msgid="6878694841476888954">"ការដំឡើងកំណែ​មិនបានសម្រេចទេ"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"កំពុងផ្ទៀងផ្ទាត់​កំណែថ្មី…"</string>
-    <string name="verify_failure" msgid="9125591747058765589">"ការផ្ទៀងផ្ទាត់មិនបានសម្រេចទេ។ សូមជ្រើសរើសឯកសារកំណែថ្មីដែលត្រឹមត្រូវ។"</string>
+    <string name="verify_failure" msgid="5077656735909871291">"សូមជ្រើសរើសឯកសារកំណែថ្មីដែលត្រឹមត្រូវ។"</string>
     <string name="install_ready" msgid="5831701403889581045">"អាចដំឡើង​កំណែថ្មី​បានហើយ។"</string>
     <string name="install_in_progress" msgid="1447531401625704953">"ការដំឡើង​កំពុង​ដំណើរការ…"</string>
     <string name="install_success" msgid="7607370228817982339">"ការដំឡើងកំណែ​ទទួលបាន​ជោគជ័យ។"</string>

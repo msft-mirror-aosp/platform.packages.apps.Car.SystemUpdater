@@ -27,7 +27,8 @@
     <string name="install_now" msgid="1526380165774958831">"ഇപ്പോൾ ഇൻസ്‌റ്റാൾ ചെയ്യൂ"</string>
     <string name="update_failed" msgid="6878694841476888954">"അപ്‌ഡേറ്റ് ചെയ്യാനായില്ല"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"അപ്‌ഡേറ്റ് പരിശോധിച്ചുറപ്പിക്കുന്നു…"</string>
-    <string name="verify_failure" msgid="9125591747058765589">"പരിശോധിച്ചുറപ്പിക്കാനായില്ല. അപ്‌ഡേറ്റിന് സാധുവായ ഫയൽ തിരഞ്ഞെടുക്കുക."</string>
+    <!-- no translation found for verify_failure (5077656735909871291) -->
+    <skip />
     <string name="install_ready" msgid="5831701403889581045">"അപ്‌ഡേറ്റ്, ഇൻസ്റ്റാൾ ചെയ്യാൻ തയ്യാറാണ്."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"ഇൻസ്‌റ്റലേഷൻ പുരോഗമിക്കുന്നു…"</string>
     <string name="install_success" msgid="7607370228817982339">"അപ്‌ഡേറ്റ് ചെയ്തു."</string>

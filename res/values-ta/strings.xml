@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"இப்போதே நிறுவு"</string>
     <string name="update_failed" msgid="6878694841476888954">"புதுப்பிக்க முடியவில்லை"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"புதுப்பிப்பைச் சரிபார்க்கிறது…"</string>
-    <string name="verify_failure" msgid="9125591747058765589">"சரிபார்க்க இயலவில்லை. சரியான தேர்வுசெய்."</string>
+    <string name="verify_failure" msgid="5077656735909871291">"சரியான புதுப்பிப்பு ஃபைலைத் தேர்வுசெய்யவும்."</string>
     <string name="install_ready" msgid="5831701403889581045">"இந்தப் புதுப்பிப்பை இப்போது நிறுவலாம்."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"நிறுவுகிறது…"</string>
     <string name="install_success" msgid="7607370228817982339">"புதுப்பிக்கப்பட்டது."</string>
