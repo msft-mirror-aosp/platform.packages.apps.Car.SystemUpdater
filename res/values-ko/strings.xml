@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"지금 설치"</string>
     <string name="update_failed" msgid="6878694841476888954">"업데이트 실패"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"업데이트 확인 중…"</string>
-    <string name="verify_failure" msgid="9125591747058765589">"인증할 수 없습니다. 유효한 업데이트 파일을 선택하세요."</string>
+    <string name="verify_failure" msgid="5077656735909871291">"유효한 업데이트 파일을 선택하세요."</string>
     <string name="install_ready" msgid="5831701403889581045">"업데이트를 설치할 준비가 되었습니다."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"설치 중…"</string>
     <string name="install_success" msgid="7607370228817982339">"업데이트했습니다."</string>
