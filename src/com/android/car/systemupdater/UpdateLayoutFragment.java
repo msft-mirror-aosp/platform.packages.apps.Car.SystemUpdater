@@ -219,7 +219,7 @@ public class UpdateLayoutFragment extends Fragment implements UpFragment {
 
         @Override
         protected void onPostExecute(UpdateParser.ParsedUpdate result) {
-            mToolbar.hideProgressBar();
+            mProgressBar.setVisible(false);
             if (result == null) {
                 showStatus(R.string.verify_failure);
                 return;
