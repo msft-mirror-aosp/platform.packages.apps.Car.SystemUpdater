@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"ახლავე ინსტალაცია"</string>
     <string name="update_failed" msgid="6878694841476888954">"განახლება ვერ მოხერხდა"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"მიმდინარეობს განახლების დადასტურება…"</string>
-    <string name="verify_failure" msgid="9125591747058765589">"ვერ დადასტურდა. აირჩიეთ სწორი ფაილი."</string>
+    <string name="verify_failure" msgid="5077656735909871291">"აირჩიეთ განახლების მოქმედი ფაილი."</string>
     <string name="install_ready" msgid="5831701403889581045">"განახლება მზად არის ინსტალაციისთვის."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"მიმდინარეობს ინსტალაცია…"</string>
     <string name="install_success" msgid="7607370228817982339">"განახლება წარმატებულია."</string>

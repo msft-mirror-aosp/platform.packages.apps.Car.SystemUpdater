@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"ယခု ထည့်သွင်းရန်"</string>
     <string name="update_failed" msgid="6878694841476888954">"အပ်ဒိတ်လုပ်၍ မရပါ"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"အပ်ဒိတ်ကို အတည်ပြုနေသည်…"</string>
-    <string name="verify_failure" msgid="9125591747058765589">"အတည်ပြု၍ မရပါ။ အပ်ဒိတ်ဖိုင်အမှန် ရွေးပါ။"</string>
+    <string name="verify_failure" msgid="5077656735909871291">"အပ်ဒိတ်ဖိုင်အမှန် ရွေးပါ။"</string>
     <string name="install_ready" msgid="5831701403889581045">"အပ်ဒိတ်ကို ထည့်သွင်းရန် အဆင်သင့်ဖြစ်ပြီ။"</string>
     <string name="install_in_progress" msgid="1447531401625704953">"ထည့်သွင်းနေဆဲဖြစ်သည်…"</string>
     <string name="install_success" msgid="7607370228817982339">"အပ်ဒိတ်လုပ်ပြီးပြီ။"</string>

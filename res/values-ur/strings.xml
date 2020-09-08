@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"ابھی انسٹال کریں"</string>
     <string name="update_failed" msgid="6878694841476888954">"اپ ڈیٹ نا کام ہو گیا"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"اپ ڈیٹ کی توثیق ہو رہی ہے…"</string>
-    <string name="verify_failure" msgid="9125591747058765589">"توثیق ناکام ہو گئی۔ براہ کرم ایک درست اپ ڈیٹ فائل منتخب کریں۔"</string>
+    <string name="verify_failure" msgid="5077656735909871291">"براہ کرم ایک درست اپ ڈیٹ فائل منتخب کریں۔"</string>
     <string name="install_ready" msgid="5831701403889581045">"اپ ڈیٹ انسٹال کیے جانے کے ليے تیار ہے۔"</string>
     <string name="install_in_progress" msgid="1447531401625704953">"انسٹالیشن پیشرفت میں ہے…"</string>
     <string name="install_success" msgid="7607370228817982339">"اپ ڈیٹ کامیاب ہو گیا ہے۔"</string>
