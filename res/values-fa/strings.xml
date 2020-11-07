@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"اکنون نصب شود"</string>
     <string name="update_failed" msgid="6878694841476888954">"به‌روزرسانی انجام نشد"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"درحال تأیید به‌روزرسانی…"</string>
-    <string name="verify_failure" msgid="5077656735909871291">"لطفاً فایل به‌روزرسانی معتبری انتخاب کنید."</string>
+    <string name="verify_failure" msgid="9125591747058765589">"تأیید نشد. لطفاً فایل به‌روزرسانی معتبری انتخاب کنید."</string>
     <string name="install_ready" msgid="5831701403889581045">"به‌روزرسانی آماده نصب است."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"درحال نصب…"</string>
     <string name="install_success" msgid="7607370228817982339">"به‌روزرسانی باموفقیت انجام شد."</string>

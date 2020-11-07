@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"હમણાં જ ઇન્સ્ટૉલ કરો"</string>
     <string name="update_failed" msgid="6878694841476888954">"અપડેટ કરવાનું નિષ્ફળ થયું"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"અપડેટ ચકાસી રહ્યાં છીએ…"</string>
-    <string name="verify_failure" msgid="5077656735909871291">"કૃપા કરીને કોઈ યોગ્ય અપડેટ ફાઇલની પસંદગી કરો."</string>
+    <string name="verify_failure" msgid="9125591747058765589">"ચકાસણી નિષ્ફળ. યોગ્ય ફાઇલની પસંદગી કરો."</string>
     <string name="install_ready" msgid="5831701403889581045">"આ અપડેટ ઇન્સ્ટૉલ થવા માટે તૈયાર છે."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"ઇન્સ્ટૉલેશન થઈ રહ્યું છે…"</string>
     <string name="install_success" msgid="7607370228817982339">"અપડેટ સફળ."</string>

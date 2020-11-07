@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"Installa ora"</string>
     <string name="update_failed" msgid="6878694841476888954">"Aggiornamento non riuscito"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"Verifica aggiornamento…"</string>
-    <string name="verify_failure" msgid="5077656735909871291">"Seleziona un file di aggiornamento valido."</string>
+    <string name="verify_failure" msgid="9125591747058765589">"Verifica non riuscita. Seleziona file aggiornamento valido."</string>
     <string name="install_ready" msgid="5831701403889581045">"Aggiornam. pronto per l\'installazione."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"Installazione…"</string>
     <string name="install_success" msgid="7607370228817982339">"Aggiornamento riuscito."</string>

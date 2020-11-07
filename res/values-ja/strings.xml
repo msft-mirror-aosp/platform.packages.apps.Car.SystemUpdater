@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"今すぐインストール"</string>
     <string name="update_failed" msgid="6878694841476888954">"アップデートに失敗しました"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"更新を確認しています…"</string>
-    <string name="verify_failure" msgid="5077656735909871291">"有効なアップデート ファイルを選択してください。"</string>
+    <string name="verify_failure" msgid="9125591747058765589">"確認できませんでした。有効なアップデート ファイルを選択してください。"</string>
     <string name="install_ready" msgid="5831701403889581045">"アップデートをインストールできます。"</string>
     <string name="install_in_progress" msgid="1447531401625704953">"インストール中…"</string>
     <string name="install_success" msgid="7607370228817982339">"アップデートに成功しました。"</string>
