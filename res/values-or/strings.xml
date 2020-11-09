@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"ବର୍ତ୍ତମାନ ଇନଷ୍ଟଲ୍ କରନ୍ତୁ"</string>
     <string name="update_failed" msgid="6878694841476888954">"ଅପଡେଟ୍ ବିଫଳ ହୋଇଛି"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"ଅପଡେଟ୍ ଯାଞ୍ଚ ହେଉଛି…"</string>
-    <string name="verify_failure" msgid="5077656735909871291">"ଦୟାକରି ଏକ ବୈଧ ଅପଡେଟ୍ ଫାଇଲ୍ ଚୟନ କରନ୍ତୁ।"</string>
+    <string name="verify_failure" msgid="9125591747058765589">"ଯାଞ୍ଚକରଣ ବିଫଳ ହୋଇଛି। ଦୟାକରି ବୈଧ ଅପଡେଟ ଫାଇଲ ଚୟନ କର।"</string>
     <string name="install_ready" msgid="5831701403889581045">"ଅପଡେଟ୍ ଇନଷ୍ଟଲ୍ କରାଯିବାକୁ ପ୍ରସ୍ତୁତ ଅଛି।"</string>
     <string name="install_in_progress" msgid="1447531401625704953">"ଇନଷ୍ଟଲେସନ୍ ପ୍ରଗତିରେ ଅଛି…"</string>
     <string name="install_success" msgid="7607370228817982339">"ଅପଡେଟ ସଫଳ ହୋଇଛି।"</string>

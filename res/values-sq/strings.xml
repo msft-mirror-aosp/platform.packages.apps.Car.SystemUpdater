@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"Instalo tani"</string>
     <string name="update_failed" msgid="6878694841476888954">"Përditësimi dështoi"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"Përditësimi po verifikohet…"</string>
-    <string name="verify_failure" msgid="5077656735909871291">"Zgjidh një skedar të vlefshëm të përditësimit."</string>
+    <string name="verify_failure" msgid="9125591747058765589">"Verifikimi dështoi. Zgjidh një skedar të vlefshëm të përditësimit."</string>
     <string name="install_ready" msgid="5831701403889581045">"Përditësimi është gati për t\'u instaluar."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"Instalimi në vazhdim…"</string>
     <string name="install_success" msgid="7607370228817982339">"Përditësimi përfundoi me sukses."</string>

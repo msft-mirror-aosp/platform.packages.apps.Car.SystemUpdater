@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"Instalatu"</string>
     <string name="update_failed" msgid="6878694841476888954">"Ezin izan da eguneratu"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"Eguneratzea egiaztatzen…"</string>
-    <string name="verify_failure" msgid="5077656735909871291">"Hautatu balio duen eguneratze-fitxategi bat."</string>
+    <string name="verify_failure" msgid="9125591747058765589">"Ezin izan da egiaztatu. Hautatu eguneratze-fitxategi balioduna."</string>
     <string name="install_ready" msgid="5831701403889581045">"Instalatzeko prest dago eguneratzea."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"Instalatzen…"</string>
     <string name="install_success" msgid="7607370228817982339">"Instalatu da eguneratzea."</string>

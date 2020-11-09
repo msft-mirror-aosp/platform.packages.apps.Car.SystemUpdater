@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"දැන් ස්ථාපනය කරන්න"</string>
     <string name="update_failed" msgid="6878694841476888954">"යාවත්කාලීනය අසමත් විය"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"යාවත්කාලීනය සත්‍යාපනය වේ…"</string>
-    <string name="verify_failure" msgid="5077656735909871291">"කරුණාකර වලංගු යාවත්කාලීන ගොනුවක් තෝරන්න."</string>
+    <string name="verify_failure" msgid="9125591747058765589">"සත්‍යාපනය අසමත් විය. වලංගු යාවත්කාලීන ගොනුවක් තෝරන්න."</string>
     <string name="install_ready" msgid="5831701403889581045">"යාවත්කාලීනය ස්ථාපනයට සූදානම්."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"ස්ථාපනය කරමින් පවතී…"</string>
     <string name="install_success" msgid="7607370228817982339">"යාවත්කාලීනය සාර්ථකයි."</string>

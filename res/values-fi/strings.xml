@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"Asenna nyt"</string>
     <string name="update_failed" msgid="6878694841476888954">"Päivitys epäonnistui"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"Vahvistetaan päivitystä…"</string>
-    <string name="verify_failure" msgid="5077656735909871291">"Valitse kelvollinen päivitystiedosto."</string>
+    <string name="verify_failure" msgid="9125591747058765589">"Vahvistus epäonnistui. Valitse kelvollinen tiedosto."</string>
     <string name="install_ready" msgid="5831701403889581045">"Päivitys on valmis asennettavaksi."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"Asennus käynnissä…"</string>
     <string name="install_success" msgid="7607370228817982339">"Päivitys onnistui."</string>

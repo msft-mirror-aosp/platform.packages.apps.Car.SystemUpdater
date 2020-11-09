@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"Instaliraj sada"</string>
     <string name="update_failed" msgid="6878694841476888954">"Ažuriranje nije uspjelo"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"Ažuriranje se provjerava…"</string>
-    <string name="verify_failure" msgid="5077656735909871291">"Odaberite važeći fajl za ažuriranje."</string>
+    <string name="verify_failure" msgid="9125591747058765589">"Neuspjela potvrda. Birajte važeći fajl."</string>
     <string name="install_ready" msgid="5831701403889581045">"Ažuriranje je spremno za instaliranje."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"Instalacija je u toku…"</string>
     <string name="install_success" msgid="7607370228817982339">"Ažuriranje je uspješno."</string>

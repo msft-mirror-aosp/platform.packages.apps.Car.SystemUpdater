@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"אני רוצה להתקין עכשיו"</string>
     <string name="update_failed" msgid="6878694841476888954">"העדכון נכשל"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"מתבצע אימות של העדכון…"</string>
-    <string name="verify_failure" msgid="5077656735909871291">"יש לבחור קובץ עדכון חוקי."</string>
+    <string name="verify_failure" msgid="9125591747058765589">"אימות נכשל. יש לבחור קובץ עדכון חוקי."</string>
     <string name="install_ready" msgid="5831701403889581045">"העדכון מוכן להתקנה."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"ההתקנה מתבצעת…"</string>
     <string name="install_success" msgid="7607370228817982339">"העדכון בוצע בהצלחה."</string>

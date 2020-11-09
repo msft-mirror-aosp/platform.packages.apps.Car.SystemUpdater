@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"ఇప్పుడే ఇన్‌స్టాల్ చేయి"</string>
     <string name="update_failed" msgid="6878694841476888954">"అప్‌డేట్ విఫలమైంది"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"అప్‌డేట్‌ను ధృవీకరిస్తోంది…"</string>
-    <string name="verify_failure" msgid="5077656735909871291">"దయచేసి చెల్లుబాటు అయ్యే అప్‌డేట్‌ఫైల్‌ను ఎంచుకోండి"</string>
+    <string name="verify_failure" msgid="9125591747058765589">"ధృవీ.విఫలం. చెల్లే అప్‌డేట్‌ఫైల్ కావాలి."</string>
     <string name="install_ready" msgid="5831701403889581045">"ఇన్‌స్టాల్ కోసం అప్‌డేట్ సిద్ధంగా ఉంది."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"ఇన్‌స్టాలేషన్ ప్రోగ్రెస్‌లో ఉంది…"</string>
     <string name="install_success" msgid="7607370228817982339">"అప్‌డేట్‌విజయవంతం."</string>

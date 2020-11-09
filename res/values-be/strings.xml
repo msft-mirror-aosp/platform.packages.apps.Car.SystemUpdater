@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"Усталяваць зараз"</string>
     <string name="update_failed" msgid="6878694841476888954">"Не атрымалася выканаць абнаўленне"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"Правяраецца абнаўленне…"</string>
-    <string name="verify_failure" msgid="5077656735909871291">"Выберыце правільны файл."</string>
+    <string name="verify_failure" msgid="9125591747058765589">"Памылка спраўджання. Выберыце іншы файл."</string>
     <string name="install_ready" msgid="5831701403889581045">"Абнаўленне гатова да ўсталёўкі."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"Выконваецца ўсталёўка…"</string>
     <string name="install_success" msgid="7607370228817982339">"Абнаўленне выканана."</string>
