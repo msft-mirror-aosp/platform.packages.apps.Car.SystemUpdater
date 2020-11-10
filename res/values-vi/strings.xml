@@ -27,7 +27,7 @@
     <string name="install_now" msgid="1526380165774958831">"Cài đặt ngay"</string>
     <string name="update_failed" msgid="6878694841476888954">"Cập nhật không thành công"</string>
     <string name="verify_in_progress" msgid="8125900023523483860">"Đang xác minh bản cập nhật…"</string>
-    <string name="verify_failure" msgid="9125591747058765589">"Xác minh không thành công. Hãy chọn một tệp cập nhật hợp lệ."</string>
+    <string name="verify_failure" msgid="5077656735909871291">"Hãy chọn một tệp cập nhật hợp lệ."</string>
     <string name="install_ready" msgid="5831701403889581045">"Bạn đã có thể cài đặt bản cập nhật."</string>
     <string name="install_in_progress" msgid="1447531401625704953">"Đang cài đặt…"</string>
     <string name="install_success" msgid="7607370228817982339">"Cập nhật thành công."</string>
