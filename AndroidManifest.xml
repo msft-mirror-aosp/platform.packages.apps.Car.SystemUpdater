@@ -27,6 +27,7 @@
     <application
             android:label="@string/title"
             android:theme="@style/SystemUpdaterTheme"
+            android:enableOnBackInvokedCallback="false"
             android:supportsRtl="true">
         <activity
             android:name="com.android.car.systemupdater.SystemUpdaterActivity"
