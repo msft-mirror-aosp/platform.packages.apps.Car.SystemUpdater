@@ -17,14 +17,10 @@ package com.android.car.systemupdater;
 
 import static com.android.car.systemupdater.UpdateLayoutFragment.EXTRA_RESUME_UPDATE;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.android.car.ui.core.CarUi;
 import com.android.car.ui.toolbar.Toolbar;
@@ -39,22 +35,10 @@ public class SystemUpdaterActivity extends AppCompatActivity
         implements DeviceListFragment.SystemUpdater {
 
     private static final String FRAGMENT_TAG = "FRAGMENT_TAG";
-    private static final int STORAGE_PERMISSIONS_REQUEST_CODE = 0;
-    private static final String[] REQUIRED_STORAGE_PERMISSIONS = new String[]{
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_MEDIA_STORAGE
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, REQUIRED_STORAGE_PERMISSIONS,
-                    STORAGE_PERMISSIONS_REQUEST_CODE);
-        }
 
         setContentView(R.layout.activity_main);
 
@@ -89,22 +73,6 @@ public class SystemUpdaterActivity extends AppCompatActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[],
-            int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (STORAGE_PERMISSIONS_REQUEST_CODE == requestCode) {
-            if (grantResults.length == 0) {
-                finish();
-            }
-            for (int grantResult : grantResults) {
-                if (grantResult != PackageManager.PERMISSION_GRANTED) {
-                    finish();
-                }
-            }
-        }
     }
 
     @Override
